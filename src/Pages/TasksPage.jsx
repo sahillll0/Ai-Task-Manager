@@ -66,7 +66,7 @@ const TasksPage = () => {
 
     const handelDeleteTask = async () => {
         try {
-            await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/task/deleteTask/${selectedTask._id}`, {
+            await axios.delete(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/deleteTask/${selectedTask._id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

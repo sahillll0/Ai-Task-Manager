@@ -76,7 +76,7 @@ const EditTaskPage = () => {
             return;
         }
         try {
-            await axios.put(`${import.meta.env.VITE_BACKEND_URL}/task/edit/${existingTask._id}`, task, {
+            await axios.put(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/edit/${existingTask._id}`, task, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

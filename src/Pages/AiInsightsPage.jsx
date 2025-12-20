@@ -25,7 +25,7 @@ const AiInsightsPage = () => {
 
         setIsClearing(true);
         try {
-            const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/task/ai/chats`, {
+            const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/ai/chats`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -99,7 +99,7 @@ const AiInsightsPage = () => {
         setIsTyping(true);
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/task/ai/assistant`, { userMessage: text }, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/ai/assistant`, { userMessage: text }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -154,7 +154,7 @@ const AiInsightsPage = () => {
 
     const handelChatHistory = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/task/ai/chats`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/ai/chats`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"

@@ -13,7 +13,7 @@ export const TaskProvider = ({ children }) => {
 
     const fechTask = async () => {
         try {
-            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/task/getTask`, {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/getTask`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -26,23 +26,23 @@ export const TaskProvider = ({ children }) => {
     }
 
 
-    const userData = async ()=>{
-         try {
-            const res2 =  await axios.get(`${import.meta.env.VITE_BACKEND_URL}/userinfo`, {
+    const userData = async () => {
+        try {
+            const res2 = await axios.get(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/userinfo`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
             setInfo(res2.data.user)
-                           
-         } catch (error) {
+
+        } catch (error) {
             console.log(error);
-            
-         }
+
+        }
     }
 
     useEffect(() => {
-        if(token){
+        if (token) {
             fechTask();
             userData();
         }

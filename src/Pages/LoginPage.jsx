@@ -30,7 +30,7 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, formdata, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/login`, formdata, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

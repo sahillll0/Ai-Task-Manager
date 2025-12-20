@@ -28,7 +28,7 @@ const RegisterPage = () => {
     setIsLoading(true);
 
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/register`, fromData)
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/register`, fromData)
         .then((res) => {
           if (res.status === 200) {
 

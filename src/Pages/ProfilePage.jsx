@@ -34,7 +34,7 @@ const ProfilePage = () => {
         formData.append('profilePic', file);
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/profilePic`, formData, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/profilePic`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -109,7 +109,7 @@ const ProfilePage = () => {
     const handelSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`${import.meta.env.VITE_BACKEND_URL}/updatePassword`, users, {
+            await axios.put(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/updatePassword`, users, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -144,7 +144,7 @@ const ProfilePage = () => {
     const handleDeleteAccount = async () => {
 
         try {
-            const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/deleteAccount`, {
+            const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/deleteAccount`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

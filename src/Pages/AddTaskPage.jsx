@@ -84,7 +84,7 @@ const AddTaskPage = () => {
         if (aiEnhance) {
             setIsGenerating(true);
             try {
-                await axios.post(`${import.meta.env.VITE_BACKEND_URL}/task/ai/task`, aiInput, {
+                await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/ai/task`, aiInput, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -110,7 +110,7 @@ const AddTaskPage = () => {
                 return;
             }
             try {
-                await axios.post(`${import.meta.env.VITE_BACKEND_URL}/task/addTask`, task, {
+                await axios.post(`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}/task/addTask`, task, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
