@@ -180,10 +180,10 @@ const AiInsightsPage = () => {
     }, [token])
 
     return (
-        <Layout>
+        <Layout className='scrollbar-hide' hideFooter={true} isScrollable={false}>
             <div className="flex flex-col h-[calc(100vh-64px)] lg:h-[calc(100vh)] w-full max-w-5xl mx-auto">
                 {/* Header */}
-                <header className="flex-none flex items-center justify-between px-6 py-4 border-b border-white/5 bg-zinc-900/50 backdrop-blur-sm z-10 sticky top-0">
+                <header className="flex-none flex items-center justify-between px-4 lg:px-6 py-4 border-b border-white/5 bg-zinc-900/50 backdrop-blur-sm z-10 sticky top-0">
                     <div className="flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-purple-400" />
                         <h2 className="text-lg font-semibold text-white">AI Assistant</h2>
@@ -205,7 +205,7 @@ const AiInsightsPage = () => {
                 </header>
 
                 {/* Chat Area */}
-                <div className="flex-1 overflow-y-auto px-4 pb-0 pt-6">
+                <div className="flex-1 overflow-y-auto px-4 pb-0 pt-6 scrollbar-hide">
                     <div className="max-w-3xl mx-auto space-y-6">
 
                         {/* Empty State / Welcome Screen */}
@@ -287,7 +287,7 @@ const AiInsightsPage = () => {
                 </div>
 
                 {/* Input Area (Sticky Bottom) */}
-                <div className="flex-none bg-transparent p-4 pb-6">
+                <div className="flex-none bg-transparent p-4 pb-4 lg:pb-6">
                     <div className="max-w-3xl mx-auto">
                         <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden focus-within:ring-1 focus-within:ring-purple-500/50 transition-all">
                             <textarea

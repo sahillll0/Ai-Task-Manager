@@ -3,11 +3,12 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import { Menu } from 'lucide-react';
 
-const Layout = ({ children, className = '' }) => {
+const Layout = ({ children, className = '', hideFooter = false, isScrollable = true }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
         <div className="flex h-screen bg-[#09090b] text-zinc-100 font-sans overflow-hidden">
+            {/* Mobile Header */}
             {/* Mobile Header */}
             <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#09090b] border-b border-white/5 flex items-center justify-between px-4 z-40">
                 <div className="flex items-center gap-2">
@@ -41,12 +42,12 @@ const Layout = ({ children, className = '' }) => {
             </div>
 
             {/* Main Content */}
-            <main className={`flex-1 overflow-y-auto pt-16 lg:pt-0 w-full scrollbar-hide ${className}`}>
+            <main className={`flex-1 ${isScrollable ? 'overflow-y-auto' : 'overflow-hidden'} pt-16 lg:pt-0 w-full scrollbar-hide ${className}`}>
                 <div className="min-h-full flex flex-col">
                     <div className="flex-1">
                         {children}
                     </div>
-                    <Footer />
+                    {!hideFooter && <Footer />}
                 </div>
             </main>
         </div>

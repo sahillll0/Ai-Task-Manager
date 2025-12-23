@@ -44,7 +44,7 @@ const DashBoard = () => {
   };
 
   return (
-   
+
     <Layout className="scrollbar-hide">
       <div className="max-w-[1600px] mx-auto p-4 md:p-8 space-y-8">
         {/* Header */}
@@ -54,7 +54,7 @@ const DashBoard = () => {
             <p className="text-zinc-500 text-sm mt-1">Overview of your productivity and tasks.</p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-full md:w-auto justify-end md:justify-end">
             {/* <div className="relative group">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-white transition-colors" />
                 <input
@@ -64,10 +64,7 @@ const DashBoard = () => {
                 />
               </div> */}
 
-            <button className="p-2 rounded-lg hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-            </button>
+            {/* + */}
 
             <button onClick={() => navigate('/add-task')} className="flex items-center gap-2 px-4 py-2 bg-white text-black text-sm font-medium rounded-lg hover:bg-zinc-200 transition-colors">
               <Plus className="w-4 h-4" />
@@ -77,7 +74,7 @@ const DashBoard = () => {
         </header>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
           {stats.map((stat, index) => (
             <StatsCard key={index} {...stat} />
           ))}
@@ -93,13 +90,13 @@ const DashBoard = () => {
             </button>
           </div>
 
-          <div className="w-full overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block w-full overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-zinc-800/50 bg-zinc-900/20">
                   <th className="p-4 pl-6 text-xs font-medium text-zinc-500 uppercase tracking-wider whitespace-nowrap">Task</th>
                   <th className="p-4 text-xs font-medium text-zinc-500 uppercase tracking-wider whitespace-nowrap">Status</th>
-                  {/* <th className="p-4 text-xs font-medium text-zinc-500 uppercase tracking-wider">Project</th> */}
                   <th className="p-4 text-xs font-medium text-zinc-500 uppercase tracking-wider whitespace-nowrap">Priority</th>
                   <th className="p-4 text-xs font-medium text-zinc-500 uppercase tracking-wider whitespace-nowrap">Due</th>
                   <th className="p-4 text-xs font-medium text-zinc-500 uppercase tracking-wider"></th>
@@ -117,9 +114,6 @@ const DashBoard = () => {
                         {task.status}
                       </span>
                     </td>
-                    {/* <td className="p-4">
-                        <span className="text-zinc-500 text-sm">{task.project}</span>
-                      </td> */}
                     <td className="p-4">
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border uppercase tracking-wide ${getPriorityStyle(task.priority)}`}>
                         {task.priority}
@@ -131,26 +125,12 @@ const DashBoard = () => {
                         {(() => {
                           const now = new Date();
                           const due = new Date(task.dueDate);
-                          const diff = due.getTime() - now.getTime(); // Difference in milliseconds
+                          const diff = due.getTime() - now.getTime();
 
-                          if (diff < 0) {
-                            return 'Overdue';
-                          }
-
-                          const seconds = Math.floor(diff / 1000);
-                          const minutes = Math.floor(seconds / 60);
-                          const hours = Math.floor(minutes / 60);
-                          const days = Math.floor(hours / 24);
-
-                          if (days > 0) {
-                            return `${days} day${days > 1 ? 's' : ''} left`;
-                          } else if (hours > 0) {
-                            return `${hours} hour${hours > 1 ? 's' : ''} left`;
-                          } else if (minutes > 0) {
-                            return `${minutes} minute${minutes > 1 ? 's' : ''} left`;
-                          } else {
-                            return 'Less than a minute left';
-                          }
+                          if (diff < 0) return 'Overdue';
+                          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                          if (days > 0) return `${days} day${days > 1 ? 's' : ''} left`;
+                          return 'Due soon';
                         })()}
                       </span>
                     </td>
@@ -166,10 +146,56 @@ const DashBoard = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden divide-y divide-zinc-800/50">
+            {recentTasks.map((task, index) => (
+              <div key={index} className="p-4 space-y-3 bg-zinc-900/10 active:bg-zinc-800/30 transition-colors">
+                <div className="flex justify-between items-start gap-4">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-medium text-zinc-200 line-clamp-1">{task.title}</h3>
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <span className={`flex items-center gap-1.5 text-[10px] font-medium ${getStatusStyle(task.status)}`}>
+                        <div className={`w-1.5 h-1.5 rounded-full bg-current`} />
+                        {task.status}
+                      </span>
+                      <span className="text-zinc-700 text-[10px]">•</span>
+                      <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border uppercase tracking-wide ${getPriorityStyle(task.priority)}`}>
+                        {task.priority}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigate(`/tasks`)}
+                    className="p-1.5 -mr-2 rounded hover:bg-zinc-800 text-zinc-500 hover:text-white transition-colors">
+                    <MoreHorizontal className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-zinc-500">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {(() => {
+                    const now = new Date();
+                    const due = new Date(task.dueDate);
+                    const diff = due.getTime() - now.getTime();
+                    if (diff < 0) return 'Overdue';
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    if (days > 0) return `${days} days left`;
+                    return 'Due soon';
+                  })()}
+                </div>
+              </div>
+            ))}
+            {recentTasks.length === 0 && (
+              <div className="p-8 text-center text-zinc-500 text-sm">
+                No recent tasks
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Layout>
-  
+
   );
 };
 
