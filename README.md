@@ -10,9 +10,13 @@ The app not only manages tasks but also acts as a ChatGPT-like AI assistant focu
 ✅ Core Task Management
 
 .Create, update, delete tasks
+
 .Task priorities (High / Medium / Low)
+
 .Due dates & time estimation
+
 .Step-by-step task breakdown
+
 .Task completion tracking
 
 🤖 **AI-Powered Task Creation**
