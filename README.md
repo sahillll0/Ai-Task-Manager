@@ -131,3 +131,9 @@ Backend:
 .Team-based task management
 .Analytics dashboard
 .Docker + CI/CD pipeline
+
+🤝 **Author & Acknowledgements**
+
+Made with ❤️ by **sahillll0**
+If this project helped you, please ⭐ star the repo — it motivates me to build more cool stuff.
+“Keep learning, keep building.” — **Sahillll0**
