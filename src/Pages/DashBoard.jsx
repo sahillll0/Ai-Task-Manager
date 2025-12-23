@@ -1,4 +1,5 @@
 
+import React, { useState } from 'react';
 import Layout from '../Components/Layout';
 import StatsCard from '../Components/StatsCard';
 import { Search, Bell, Filter, MoreHorizontal, Calendar, CheckCircle2, Clock, AlertCircle, Plus } from 'lucide-react';
@@ -13,6 +14,8 @@ const DashBoard = () => {
   const { tasks, status } = useTask();
 
   const navigate = useNavigate()
+  const [filter, setFilter] = useState('All');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const stats = [
     { title: 'Total Tasks', value: status.totalTask, icon: CheckCircle2, trend: 0 },
@@ -23,7 +26,12 @@ const DashBoard = () => {
 
 
 
-  const recentTasks = tasks.slice(0, 5);
+  const filteredTasks = tasks.filter(task => {
+    if (filter === 'All') return true;
+    return task.status === filter;
+  });
+
+  const recentTasks = filteredTasks.slice(0, 5);
 
   const getPriorityStyle = (priority) => {
     switch (priority) {
@@ -84,10 +92,35 @@ const DashBoard = () => {
         <div className="border border-zinc-800 rounded-xl overflow-hidden bg-zinc-900/30">
           <div className="p-4 border-b border-zinc-800 flex justify-between items-center bg-[#09090b]">
             <h2 className="text-sm font-semibold text-white">Recent Tasks</h2>
-            <button className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-800 text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
-              <Filter className="w-3.5 h-3.5" />
-              Filter
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md border text-xs font-medium transition-colors ${filter !== 'All' ? 'bg-zinc-800 text-white border-zinc-700' : 'border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800'}`}
+              >
+                <Filter className="w-3.5 h-3.5" />
+                {filter === 'All' ? 'Filter' : filter}
+              </button>
+
+              {isFilterOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setIsFilterOpen(false)} />
+                  <div className="absolute right-0 mt-2 w-32 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl z-20 overflow-hidden">
+                    {['All', 'Pending', 'In Progress', 'Completed'].map((f) => (
+                      <button
+                        key={f}
+                        onClick={() => {
+                          setFilter(f);
+                          setIsFilterOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-xs hover:bg-zinc-800 transition-colors ${filter === f ? 'text-white font-medium bg-zinc-800/50' : 'text-zinc-400'}`}
+                      >
+                        {f}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Desktop Table View */}

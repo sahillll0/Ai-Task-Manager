@@ -14,6 +14,7 @@ const TasksPage = () => {
 
     const [filter, setFilter] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const [selectedTask, setSelectedTask] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -122,15 +123,39 @@ const TasksPage = () => {
                                 className="pl-9 pr-4 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-zinc-300 focus:outline-none focus:border-zinc-700 transition-all w-full md:w-64"
                             />
                         </div>
-                        <button className="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-colors">
-                            <Filter className="w-4 h-4" />
-                        </button>
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                                className={`p-2 rounded-lg border transition-colors ${filter !== 'All' ? 'bg-zinc-800 text-white border-zinc-700' : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white'}`}
+                            >
+                                <Filter className="w-4 h-4" />
+                            </button>
+                            {isFilterOpen && (
+                                <>
+                                    <div className="fixed inset-0 z-10" onClick={() => setIsFilterOpen(false)} />
+                                    <div className="absolute right-0 mt-2 w-40 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl z-20 overflow-hidden">
+                                        {['All', 'Pending', 'In Progress', 'Completed', 'Hold'].map((f) => (
+                                            <button
+                                                key={f}
+                                                onClick={() => {
+                                                    setFilter(f);
+                                                    setIsFilterOpen(false);
+                                                }}
+                                                className={`w-full text-left px-4 py-2 text-sm hover:bg-zinc-800 transition-colors ${filter === f ? 'text-white font-medium bg-zinc-800/50' : 'text-zinc-400'}`}
+                                            >
+                                                {f}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 {/* Filters */}
                 <div className="flex items-center gap-2 border-b border-zinc-800/50 pb-4 overflow-x-auto">
-                    {['All', 'Pending', 'Completed'].map((tab) => (
+                    {['All', 'Pending', 'Completed', 'In Progress' , 'Hold'].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setFilter(tab)}
